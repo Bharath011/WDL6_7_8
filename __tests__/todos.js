@@ -2,10 +2,10 @@ const request = require("supertest");
 
 const db = require("../models/index");
 const app = require("../app");
-let server;
-let agent;
 
-describe("Test case for database", () => {
+let server, agent;
+
+describe("Todo Application", function () {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
     server = app.listen(3000, () => {});
@@ -21,7 +21,7 @@ describe("Test case for database", () => {
     }
   });
 
-  test("Creates_a_todo_and_responds_with_json_at_/todos_POST_endpoint", async () => {
+  test("Creates a todo and responds with json at /todos POST endpoint", async () => {
     const response = await agent.post("/todos").send({
       title: "Buy milk",
       dueDate: new Date().toISOString(),
@@ -35,24 +35,25 @@ describe("Test case for database", () => {
     expect(parsedResponse.id).toBeDefined();
   });
 
-  test("Mark_todo_as_a_completed", async () => {
-    const res = await agent.post("/todos").send({
-      title: "Do HomeWork",
+  test("Marks todo with the given ID as complete", async () => {
+    const response = await agent.post("/todos").send({
+      title: "Buy milk",
       dueDate: new Date().toISOString(),
       completed: false,
     });
-    const parseResponse = JSON.parse(res.text);
-    const todoID = parseResponse.id;
-    expect(parseResponse.completed).toBe(false);
+    const parsedResponse = JSON.parse(response.text);
+    const todoID = parsedResponse.id;
 
-    const changeTodo = await agent
-      .put(`/todos/${todoID}/markAsCompleted`)
+    expect(parsedResponse.completed).toBe(false);
+
+    const markCompleteResponse = await agent
+      .put(`/todos/${todoID}/markASCompleted`)
       .send();
-    const parseUpadteTodo = JSON.parse(changeTodo.text);
-    expect(parseUpadteTodo.completed).toBe(true);
+    const parsedUpdateResponse = JSON.parse(markCompleteResponse.text);
+    expect(parsedUpdateResponse.completed).toBe(true);
   });
 
-  test("Fetches_all_todos_in_the_database_using_/todos_endpoint", async () => {
+  test("Fetches all todos in the database using /todos endpoint", async () => {
     await agent.post("/todos").send({
       title: "Buy xbox",
       dueDate: new Date().toISOString(),
@@ -70,18 +71,19 @@ describe("Test case for database", () => {
     expect(parsedResponse[3]["title"]).toBe("Buy ps3");
   });
 
-  test("Deletes_a_todo_with_the_given_ID_if_it_exists_and_sends_a_boolean_response", async () => {
+  test("Deletes a todo with the given ID if it exists and after sends a boolean response", async () => {
     // FILL IN YOUR CODE HERE
     const response = await agent.post("/todos").send({
-      title: "Buy xbox",
+      title: "Buy notes",
       dueDate: new Date().toISOString(),
       completed: false,
     });
-    const parsedResponse = JSON.parse(response.text);
-    const todoID = parsedResponse.id;
 
-    const res = await agent.delete(`/todos/${todoID}`).send();
-    const bool = Boolean(res.text);
-    expect(bool).toBe(true);
+    const parseResponse = JSON.parse(response.text);
+    const todoID = parseResponse.id;
+
+    const deleteResponse = await agent.delete(`/todos/${todoID}`).send();
+    const parsedDeleteResponse = JSON.parse(deleteResponse.text);
+    expect(parsedDeleteResponse).toBe(true);
   });
 });
