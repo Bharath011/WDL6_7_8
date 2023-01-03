@@ -1,7 +1,6 @@
 {
   "name": "todo-manager",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -42,5 +41,14 @@
   },
   "env": {
     "jest": true
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bharath011/WDL6_7_8.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Bharath011/WDL6_7_8/issues"
+  },
+  "homepage": "https://github.com/Bharath011/WDL6_7_8#readme",
+  "description": ""
 }
