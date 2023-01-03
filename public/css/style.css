@@ -1,8 +1,26 @@
-body {
-    font-family: sans-serif;
-    background: white;
-    }
-    
-.Todo-Item:hover .trash-icon{
-      display:block;
+ body {
+font-family:'Times New Roman', Times, serif;
+background: white;
 }
+/*
+.Todo-Item:hover .trash-icon{
+  display:block;
+} */
+
+   
+  body {
+  background: #DCEDC8;
+  color: #333333;
+  margin-top: 20px;
+  }
+   
+
+   
+  button{
+  background-color: #03A9F4;
+  color: white;
+  }
+   
+  button:hover{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  }
